@@ -94,7 +94,3 @@ void preorder(Tree* root, char* ans, int i){
 	ans[i] = '1';
 	preorder(root -> right, ans, i + 1);
 }
-
-
-
-
