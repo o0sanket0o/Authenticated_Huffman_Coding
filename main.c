@@ -6,6 +6,8 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include "huffman.c"
+#include "generatePass.c"
+#include "history.c"
 
 
 void hashPassword(const char *password, unsigned char hash[CC_SHA256_DIGEST_LENGTH]) {
@@ -68,8 +70,8 @@ void writeHashToFile(const char *filename, const unsigned char hash[CC_SHA256_DI
 bool checkPass(char *userPassword) {
     unsigned char hash[CC_SHA256_DIGEST_LENGTH];
     hashPassword(userPassword, hash);
-    printf("Hash of the entered password: ");
-    printHash(hash);
+//    printf("Hash of the entered password: ");
+//    printHash(hash);
 
     unsigned char hashToVerify[CC_SHA256_DIGEST_LENGTH];
     if (!readHashFromFile("pass.txt", hashToVerify)) {
@@ -86,27 +88,45 @@ bool checkPass(char *userPassword) {
         int num;
         scanf("%d", &num);
         getchar(); 
+        if(num == 1){
+            int choice;
+            char *newPassword = NULL;
+            printf("Enter 1 to generate a random password.\nEnter 2 to create your own password.\n");
+            scanf("%d", &choice);
+            getchar();  // Consume leftover newline character
+            if (choice == 1) {
+                int sz = strlen(chars); 
+                newPassword = createPassWord(10, sz);
+                if (newPassword == NULL) {
+                    printf("Error generating password.\n");
+                    return false;
+                }
+                printf("Your new password is: %s.\n", newPassword);
+                } else if (choice == 2) {
+                    newPassword = (char *)malloc(200 * sizeof(char));
+                    if (newPassword == NULL) {
+                        printf("Memory allocation failed.\n");
+                        return false;
+                    }
+                printf("Enter the new password: ");
+                fgets(newPassword, 200, stdin);
 
-        if (num == 1) {
-            printf("Enter the new password: ");
-            char newPassword[200];
-            fgets(newPassword, sizeof(newPassword), stdin);
-
-            size_t len = strlen(newPassword);
-            if (len > 0 && newPassword[len - 1] == '\n') {
-                newPassword[len - 1] = '\0';
+                size_t len = strlen(newPassword);
+                if (len > 0 && newPassword[len - 1] == '\n') {
+                    newPassword[len - 1] = '\0';
+                }
             }
-
             unsigned char newHash[CC_SHA256_DIGEST_LENGTH];
             hashPassword(newPassword, newHash);
             writeHashToFile("pass.txt", newHash);
+            loginHistory(true);
             printf("Password changed successfully.\n");
-        } else {
-            printf("Access Denied.\n");
-            exit(0);
-        }
-    }
 
+            if (newPassword != NULL) {
+                free(newPassword);  // Free allocated memory
+            }
+        }else printf("Program ended.\n");
+    }
     return false;
 }
 
@@ -131,12 +151,8 @@ int main() {
             strings[i][len - 1] = '\0';
         }
     }
-    printf("\nYou entered:\n");
-    for (int i = 0; i < n; i++) {
-        printf("String %d: %s\n", i + 1, strings[i]);
-    }
-
-    if (checkPass(strings[0])) {
+   if (checkPass(strings[0])) {
+        loginHistory(false);
         implementHuffman(strings[1]);
     }
 
@@ -144,7 +160,6 @@ int main() {
         free(strings[i]);
     }
     free(strings);
-
     return 0;
 }
 

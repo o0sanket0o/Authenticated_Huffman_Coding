@@ -5,8 +5,7 @@
 #include <stdlib.h>
 
 void implementHuffman(char *a){
-	// char a[100];
-	printf("We got %s.\n", a);
+//	printf("We got %s.\n", a);
 	struct timeval before;
 	gettimeofday(&before, NULL);
 	long long t1 = before.tv_sec * 1000 + before.tv_usec / 1000;
