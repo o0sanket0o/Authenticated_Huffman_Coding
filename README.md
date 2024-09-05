@@ -4,6 +4,8 @@
 
 This project implements Huffman encoding, a popular algorithm for data compression, along with a password protection mechanism. The project allows users to encode strings using Huffman coding while securing access through a password system. The password is stored in a hashed form, and the history of successful logins and password changes is logged for security and auditing purposes.
 
+<br/>
+
 ## Use Case and Problem Solved
 
 ### Data Compression with Huffman Coding <br/>
@@ -15,6 +17,8 @@ This project provides a solution for efficiently encoding data, thereby reducing
 Beyond just data compression, this project addresses the need for secure access to the compression tool. It integrates a password-based authentication system, ensuring that only authorized users can perform encoding operations. This added layer of security is crucial in environments where data confidentiality is essential, protecting both the process and the data from unauthorized access.
 
 This dual functionality makes Authenticated Huffman Coding particularly useful in environments where both data efficiency and security are critical, such as in secure communication systems, file storage solutions, and data transfer protocols within restricted networks.
+
+<br/>
 
 ## Functions and Libraries Used
 
@@ -42,6 +46,8 @@ This dual functionality makes Authenticated Huffman Coding particularly useful i
 
 * ```combine()``` and ```create()```: Functions used for building and traversing the Huffman Tree in tree.c.<br/>
 
+<br/>
+
 ## Standard Libraries
 
 * ```stdio.h```: For input/output operations. <br/>
@@ -57,6 +63,53 @@ This dual functionality makes Authenticated Huffman Coding particularly useful i
 * ```unistd.h```: For file operations like reading and writing. <br/>
   
 * ```CommonCrypto.h```: For SHA-256 hashing functionality (specific to macOS). <br/>
+
+<br/>
+
+## Compatibility
+
+This project currently uses the ```CommonCrypto``` library for hashing functionality, which is specific to macOS and iOS. As a result, the project is fully compatible with Apple platforms. However, for users on Windows or Linux, the ```CommonCrypto``` library is not available, and additional steps are required to ensure compatibility. <br/>
+
+### Running on macOS
+No additional steps are needed. The project will compile and run seamlessly using the provided ```CommonCrypto``` library for SHA-256 hashing. <br/>
+
+### Running on Windows
+To run the project on Windows, you will need to replace ```CommonCrypto``` with a cross-platform cryptography library such as OpenSSL or libsodium. Follow these steps: <br/>
+
+* Install ```OpenSSL``` or ```libsodium```: <br/>
+
+* ```OpenSSL```: Can be installed via ```vcpkg``` or by downloading pre-built binaries. <br/>
+
+* ```libsodium```: Available through package managers like vcpkg or from the libsodium website. <br/>
+
+* Replace any ```CommonCrypto``` function calls with the equivalent OpenSSL or libsodium functions. For example: <br/>
+
+* For SHA-256 hashing using OpenSSL, include ```openssl/sha.h``` and use ```SHA256()``` instead of ```CC_SHA256()```. <br/>
+
+* Modify the build command to link the appropriate libraries:<br/>
+
+* ```gcc main.c -L. -lssl -lcrypto -o HuffmanCoding```
+
+### Running on Linux
+On Linux , similar steps are required:
+
+* Install OpenSSL or libsodium using your distribution's package manager (e.g., ```apt```, ```yum```, or ```pacman```):
+
+* For OpenSSL: ```sudo apt-get install libssl-dev``` <br/>
+
+* For libsodium: ```sudo apt-get install libsodium-dev``` <br/>
+
+* Replace the ```CommonCrypto``` function calls with ```OpenSSL``` or ```libsodium``` equivalents, as described in the Windows section.<br/>
+
+
+* Update the build command to link the necessary libraries: <br/>
+
+   ```gcc main.c -L. -lssl -lcrypto -o HuffmanCoding``` <br/>
+
+### Future Compatibility Considerations <br/>
+To make the project more platform-agnostic, i will try to switch to a cross-platform library like OpenSSL or libsodium by default. This will ensure that users on any operating system can run the project without additional setup.
+
+<br/>
 
 ## Usage
 1. Clone the repository: <br/>
@@ -75,6 +128,8 @@ This dual functionality makes Authenticated Huffman Coding particularly useful i
 
     Copy code : ```./a.out```
 
+<br/>
+
 ## User Interaction
 
 ### Password Verification: <br/>
@@ -90,12 +145,15 @@ This dual functionality makes Authenticated Huffman Coding particularly useful i
 
 After successful authentication, the user is prompted to enter the string they wish to encode. The Huffman encoding algorithm is then applied, and the encoded string is processed.
 
+<br/>
+
 ## Important files
 
 * ```pass.txt```: Ensure this file is present to store the password hash. <br/>
 
 * ```history.txt```: This file logs all successful logins and password changes. It will be created automatically if it does not exist.
 
+<br/>
 
 ## Future Scope:
 * Implementing a more sophisticated user interface. <br/>
@@ -104,8 +162,12 @@ After successful authentication, the user is prompted to enter the string they w
 
 * Adding encryption to further secure the encoded data. <br/>
 
+<br/>
+
 ## Contributions:
 Contributions are welcome! If you'd like to contribute to this project, please fork the repository and create a pull request with your changes.
+
+<br/>
 
 ## Contact : 
 Email : sanketchugh5@gmail.com  <br/>
