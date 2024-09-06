@@ -1,3 +1,7 @@
+<div style="text-align: center;">
+  <img src="https://github.com/user-attachments/assets/a70d7166-02ac-4fef-a9fd-d1577abe5d01" alt="Logo" width="700" height="400">
+</div>
+
 # Authenticated Huffman Encoding
 
 ## About the Project
